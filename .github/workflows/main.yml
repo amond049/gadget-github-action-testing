@@ -1,12 +1,15 @@
 name: Gadget CI/CD Pipeline
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed  # Trigger when PR is closed (merged or not)
 
 jobs:
   deploy:
+    if: github.event.pull_request.merged == true  # Only run if PR was merged
     runs-on: ubuntu-latest
     environment: development
 
@@ -21,5 +24,3 @@ jobs:
           environment: 'development'
           token: ${{ secrets.GGT_TOKEN }}
           path: 'stupid-application'
-
-          
