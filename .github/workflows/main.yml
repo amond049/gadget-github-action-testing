@@ -3,24 +3,25 @@ name: Gadget CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - main  # Deploy whenever code is pushed or merged into main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: stupid-application  # 👈 this is key!
+    environment: development
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy to Gadget Production
-        uses: gadget-inc/ggt-deploy-action@v1
-        with:
-          app: 'stupid-application'
-          environment: 'development'          # or 'production'
-          token: ${{ secrets.GGT_TOKEN }}
-          allow-issues: 'true'
+      - name: Install Gadget CLI
+        run: |
+          npm install -g @gadgetinc/ggt
+
+      - name: Deploy to Gadget Development
+        working-directory: ./stupid-application
+        run: |
+          ggt deploy \
+            --app stupid-application \
+            --environment development \
+            --token ${{ secrets.GGT_TOKEN }} \
