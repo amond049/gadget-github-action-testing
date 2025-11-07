@@ -7,29 +7,32 @@ on:
       - main
 
 jobs:
-  deploy-dev:
+  deploy:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: development
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node (if necessary)
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install dependencies
         run: npm ci
-      - name: Deploy to Gadget development env
+
+      - name: Install ggt CLI
+        run: npm install -g @gadgetinc/ggt
+
+      - name: Deploy to Gadget
         env:
           GGT_TOKEN: ${{ secrets.GGT_TOKEN }}
         run: |
-          # Replace `your-app-name` with your Gadget app name
-          npx ggt deploy \
-            --app stupid-application \
-            --from development \
-            --force \
-            --allow-problems
-        # The flags depend on your environment & tolerance for data delete, etc.
+         npx ggt deploy \
+         --app stupid-application \
+         --from development \
+         --force \
+         --allow-problems
