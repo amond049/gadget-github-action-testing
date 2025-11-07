@@ -34,7 +34,7 @@ jobs:
         run: |
           # Replace `your-app-name` with your Gadget app name
           npx ggt deploy \
-            --app your-app-name \
+            --app stupid-application \
             --from development \
             --force \
             --allow-problems
