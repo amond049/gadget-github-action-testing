@@ -4,9 +4,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - development
-  # We trigger on merged PRs into the "development" branch.  
-  # Another option: push to development branch directly.
+      - main
 
 jobs:
   deploy-dev:
