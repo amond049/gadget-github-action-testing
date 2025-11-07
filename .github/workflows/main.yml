@@ -14,14 +14,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Gadget CLI
-        run: |
-          npm install -g @gadgetinc/ggt
-
+      - name: Change to app directory 
+        run: cd ./stupid-application
+        
       - name: Deploy to Gadget Development
-        working-directory: ./stupid-application
-        run: |
-          ggt deploy \
-            --app stupid-application \
-            --environment development \
-            --token ${{ secrets.GGT_TOKEN }} \
+        uses: gadget-inc/ggt-deploy-action@v1
+        with:
+          app: 'stupid-application'          # 👈 your Gadget app name
+          environment: 'development'          # 👈 Gadget environment to deploy to
+          token: ${{ secrets.GGT_TOKEN }}    # 👈 CLI token stored in repo secrets
+          allow-issues: 'true'               # optional: continue even if minor issues exist
+
