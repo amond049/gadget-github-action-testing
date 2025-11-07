@@ -1,4 +1,4 @@
-name: Gadget Deploy – Development → Production
+name: Gadget Deploy – Production
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ jobs:
   deploy:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    environment: development
+    environment: production
 
     steps:
       - name: Checkout code
@@ -27,12 +27,18 @@ jobs:
       - name: Install ggt CLI
         run: npm install -g @gadgetinc/ggt
 
+      # Optional: Debug token length (can delete once confirmed working)
+      - name: Debug token (optional)
+        run: echo "GGT_TOKEN length: ${#GGT_TOKEN}"
+        env:
+          GGT_TOKEN: ${{ secrets.GGT_TOKEN }}
+
       - name: Deploy to Gadget
         env:
           GGT_TOKEN: ${{ secrets.GGT_TOKEN }}
         run: |
-         npx ggt deploy \
-         --app stupid-application \
-         --from development \
-         --force \
-         --allow-problems
+          ggt deploy \
+            --app stupid-application \
+            --from production \
+            --force \
+            --allow-problems
