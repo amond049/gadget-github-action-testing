@@ -31,7 +31,8 @@ jobs:
         env:
           GGT_TOKEN: ${{ secrets.GGT_TOKEN }}
         run: |
-          ggt deploy \
-            --app stupid-application \
-            --from production \
-            --force
+         npx ggt deploy \
+         --app stupid-application \
+         --from development \
+         --force \
+         --allow-problems
