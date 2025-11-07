@@ -45,4 +45,6 @@ jobs:
         run: |
           ggt deploy \
             --app stupid-application \
-            --from production \
+            --env development \
+            --force
+            --allow-unknown-directory
