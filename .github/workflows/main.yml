@@ -1,50 +1,19 @@
-name: Gadget Deploy – Production
+name: CI/CD Pipeline
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - main
+      - main  # or any other branch you want to deploy from
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    environment: development
-
     steps:
-      - name: Checkout code
+      - name: Checkout the current repository
         uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Deploy to Gadget Production
+        uses: gadget-inc/ggt-deploy-action@v1
         with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install ggt CLI
-        run: npm install -g @gadgetinc/ggt
-
-      # ✅ Debug token to confirm it's loading properly
-      - name: Check GGT_TOKEN
-        env:
-          GGT_TOKEN: ${{ secrets.GGT_TOKEN }}
-        run: |
-          if [ -z "$GGT_TOKEN" ]; then
-            echo "❌ GGT_TOKEN is missing or empty"
-            exit 1
-          else
-            echo "✅ GGT_TOKEN is set (length: ${#GGT_TOKEN})"
-          fi
-
-      - name: Deploy to Gadget
-        env:
-          GGT_TOKEN: ${{ secrets.GGT_TOKEN }}
-        run: |
-          ggt deploy \
-            --app stupid-application \
-            --env development \
-            --force
-            --allow-unknown-directory
+          app: '<your-app-name>'
+          environment: '<your-environment>'  # The environment you are deploying to production
+          token: ${{ secrets.GGT_TOKEN }} # Add your CLI token
+          allow-issues: 'false'  # Optionally, continue deployment even if there are issues
