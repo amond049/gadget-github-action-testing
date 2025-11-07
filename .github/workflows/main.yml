@@ -27,11 +27,13 @@ jobs:
       - name: Install ggt CLI
         run: npm install -g @gadgetinc/ggt
 
-      # Optional: Debug token length (can delete once confirmed working)
+      # Optional: Debug token length (safe for YAML)
       - name: Debug token (optional)
-        run: echo "GGT_TOKEN length: ${#GGT_TOKEN}"
         env:
           GGT_TOKEN: ${{ secrets.GGT_TOKEN }}
+        run: |
+          echo "Token length check:"
+          echo "${#GGT_TOKEN}" | wc -c
 
       - name: Deploy to Gadget
         env:
