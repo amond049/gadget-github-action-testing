@@ -3,7 +3,7 @@ name: Gadget CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Deploy whenever code is pushed or merged into main
+      - main
 
 jobs:
   deploy:
@@ -11,21 +11,15 @@ jobs:
     environment: development
 
     steps:
-      # 1. Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Install Gadget CLI globally
-      - name: Install Gadget CLI
-        run: npm install -g @gadgetinc/ggt
+      - name: Deploy Gadget App from Subfolder
+        uses: ./.github/actions/gadget-deploy
+        with:
+          app: 'stupid-application'
+          environment: 'development'
+          token: ${{ secrets.GGT_TOKEN }}
+          path: 'stupid-application'
 
-      # 3. Authenticate Gadget CLI using token
-      - name: Authenticate Gadget CLI
-        run: ggt auth login --token ${{ secrets.GGT_TOKEN }}
-
-      # 4. Deploy from subfolder
-      - name: Deploy Gadget App
-        working-directory: ./stupid-application
-        run: |
-          echo "Current directory: $(pwd)"
-          ggt deploy --environment development --allow-issues true
+          
