@@ -1,6 +1,9 @@
 name: "Gadget Deploy from Subfolder"
 description: "Deploy a Gadget app using CLI from a specified path"
 inputs:
+  app:
+    description: "Gadget app name"
+    required: true
   environment:
     description: "Gadget environment"
     required: true
@@ -23,4 +26,4 @@ runs:
         cd "${{ inputs.path }}"
         echo "Current directory: $(pwd)"
         export GGT_TOKEN="${{ inputs.token }}"
-        ggt deploy --environment "${{ inputs.environment }}" --allow-issues true
+        ggt deploy --app "${{ inputs.app }}" --environment "${{ inputs.environment }}" --allow-issues true --allow-unknown-directory
