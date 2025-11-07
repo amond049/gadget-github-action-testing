@@ -1,0 +1,19 @@
+{
+  "name": "gadget-github-action-testing",
+  "version": "1.0.0",
+  "description": "This is a pure testing repo to test Github action and deploying to a Gadget application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amond049/gadget-github-action-testing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amond049/gadget-github-action-testing/issues"
+  },
+  "homepage": "https://github.com/amond049/gadget-github-action-testing#readme"
+}
