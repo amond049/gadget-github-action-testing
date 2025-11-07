@@ -1,19 +1,23 @@
-name: CI/CD Pipeline
+name: Gadget CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main  # or any other branch you want to deploy from
+      - main  # Deploy whenever code is pushed or merged into main
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
+    environment: development
+
     steps:
-      - name: Checkout the current repository
+      - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Deploy to Gadget Production
         uses: gadget-inc/ggt-deploy-action@v1
         with:
-          app: '<your-app-name>'
-          environment: '<your-environment>'  # The environment you are deploying to production
-          token: ${{ secrets.GGT_TOKEN }} # Add your CLI token
-          allow-issues: 'false'  # Optionally, continue deployment even if there are issues
+          app: 'stupid-application'          # 👈 your Gadget app name
+          environment: 'development'          # 👈 Gadget environment to deploy to
+          token: ${{ secrets.GGT_TOKEN }}    # 👈 CLI token stored in repo secrets
+          allow-issues: 'true'               # optional: continue even if minor issues exist
